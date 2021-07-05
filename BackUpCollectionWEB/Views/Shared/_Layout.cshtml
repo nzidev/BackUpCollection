@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BackUpCollectionWEB</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/w3.css" />
+
+</head>
+<body>
+
+    <div class="container margin-0">
+        <main role="main" class="pb-3">
+            <!-- #region Серая плашка с иконками -->
+            <div style="position: absolute; height: 70px;z-index:200; width:100%; top:0; left:0; background-color:#3e3e3e;">
+                <table class="text-center margin table-top">
+                    <tr>
+                        <td>
+
+                            <a href="https://contact.info.dpc.tax.nalog.ru/" title="Телефонный справочник">
+                                <img src="~/images/tel.png" class="icon-top" />
+                            </a>
+                        </td>
+                        <td>
+                            <div style="height:25px; border-left:1px solid #f0f0f0; top:7px; opacity:1;"> </div>
+                        </td>
+                        <td>
+                            <a href="http://al.info.dpc.tax.nalog.ru/" title="Поиск заблокированной учетной записи">
+                                <img src="~/images/block.png" class="icon-top" />
+                            </a>
+                        </td>
+                        <td>
+                            <div style="height:25px; border-left:1px solid #f0f0f0; top:7px; opacity:0.6;"> </div>
+                        </td>
+                        <td>
+                            <a href="http://backup.info.dpc.tax.nalog.ru/" title="Мониторинг BACKUP">
+                                <img src="~/images/backup.png" class="icon-top" style="opacity:0.99;" />
+                            </a>
+                        </td>
+                        <td>
+                            <div style="height:25px; border-left:1px solid #f0f0f0; top:7px; opacity:0.6;"> </div>
+                        </td>
+                        <td>
+                            <a href="http://ldap.info.dpc.tax.nalog.ru/" title="LDAP Perfomance">
+                                <img src="~/images/LDAP.png" class="icon-top" />
+                            </a>
+                        </td>
+                        <td>
+                            <div style="height:25px; border-left:1px solid #f0f0f0; top:7px; opacity:0.6;"> </div>
+                        </td>
+                        <td>
+                            <a href="http://unix.info.dpc.tax.nalog.ru/index.php" title="Linux">
+                                <img src="~/images/linux.png" class="icon-top" />
+                            </a>
+                        </td>
+                        <td>
+                            <div style="height:25px; border-left:1px solid #f0f0f0; top:7px; opacity:0.6;"> </div>
+                        </td>
+                        <td>
+                            <a href="http://expiredobjects.info.dpc.tax.nalog.ru/" title="Просроченные УЗ">
+                                <img src="~/images/90.png" class="icon-top" />
+                            </a>
+                        </td>
+                        <td>
+                            <div style="height:25px; border-left:1px solid #f0f0f0; top:7px; opacity:0.6;"> </div>
+                        </td>
+                        <td>
+                            <a href="http://dr.info.dpc.tax.nalog.ru/" title="Рейтинг">
+                                <img src="~/images/rating.png" class="icon-top" />
+                            </a>
+                        </td>
+                        <td>
+                            <div style="height:25px; border-left:1px solid #f0f0f0; top:7px; opacity:0.6;"> </div>
+                        </td>
+                        <td>
+                            <a href="https://servicedesk:8443/secure/Dashboard.jspa" target="_blank" title="Jira">
+                                <img src="~/images/Jira.png" class="icon-top" />
+                            </a>
+                        </td>
+                       
+                    </tr>
+                </table>
+            </div>
+            <!-- #endregion -->
+            @RenderBody()
+        </main>
+    </div>
+
+    @*<footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2020 - BackUpCollectionWEB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+
+    @*<script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/moment-with-locales.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/js/bootstrap-datepicker.ru.min.js"></script>
+    
+
+    <script type="text/javascript">
+        $(function () {
+            //alert("fdfd");
+            //$('#dtStart').datetimepicker({
+            //    locale: 'ru'
+            //});
+            //$("#data-body").hide();
+            $('#datepicker').datepicker({
+                language: "ru"
+            });
+
+
+            
+            var loadingBody = $("loading-body");
+            var dataBody = $("#data-body");
+            var loc = $("#loc option:selected").val();
+            var zone = $("#zone option:selected").val();
+           var url = '@Url.Action("PoliciesList", "Home")?searchText=' + '@Model.SearchString' + '&dtStart=' + '@Model.dtStart' + '&dtEnd=' + '@Model.dtEnd' + '&loc=' + loc + '&zone=' + zone + '&IsGood=' + '@Model.IsGood' + '&IsProblem=' + '@Model.IsProblem' + '&IsError=' + '@Model.IsError' + '&IsProgress=' + '@Model.IsProgress' + '&page=' + '@Model.page';
+
+            $(dataBody).load(url, "",
+                function (responseText, textStatus, XMLHttpRequest) {
+                    document.getElementById("loading-body").style.display = "none";
+                }
+            );
+
+
+
+           
+
+        });
+    </script>*@
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

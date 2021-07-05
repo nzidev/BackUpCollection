@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "BackUpCollectionServiceDelay": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

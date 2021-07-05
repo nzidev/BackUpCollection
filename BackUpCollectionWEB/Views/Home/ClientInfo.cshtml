@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = @ViewData["Name"];
+    Layout = null;
+}
+
+
+    <div>
+        <table class="table">
+            <tr>
+                <td>Имя:</td>
+                <td><b>@ViewData["Name"]</b></td>
+            </tr>
+            <tr>
+                <td>Ресурс:</td>
+                <td><b>@ViewData["Resurs"]</b></td>
+            </tr>
+            <tr>
+                <td>Комплекс:</td>
+                <td><b>@ViewData["Kompleks"]</b></td>
+            </tr>
+            <tr>
+                <td>Подсистема:</td>
+                <td><b>@ViewData["Podsistema"]</b></td>
+            </tr>
+            <tr>
+                <td>Дополнительно:</td>
+                <td><b>@ViewData["Description"]</b></td>
+            </tr>
+        </table>
+    </div>
+
+

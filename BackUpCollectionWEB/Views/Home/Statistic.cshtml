@@ -1,0 +1,80 @@
+﻿@using BackUpCollectionDAL.Extensions
+
+
+@{
+    ViewData["Title"] = "Statistic";
+}
+<h1>@ViewData["Title"]</h1>
+
+@using (Html.BeginForm("Statistic", "Home", FormMethod.Get))
+{
+    <!-- #region Синяя плашка -->
+    <div style="position: absolute; height: 180px;z-index:70; width:100%; top:70px; left:0; background-color:#0074a3; box-shadow: rgba(0,0,0,0.5) 0px 5px 30px;">
+        <div class="text-center margin d-flex align-items-center" style="height:180px;top:50px;">
+            <table align="center" border="0">
+                <tr>
+                    <td colspan="3">
+                        <h4><label for="TextBox" class="text-white d-inline">Статистика BACKUP</label></h4>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>@Html.DropDownList("Month", new SelectList(ViewData["Month"] as IDictionary<byte, string>, "Key", "Value", 2), new { @class = "form-control form-control-sm", @onchange = "clickDropDown()" })</td>
+                    <td>@Html.DropDownList("Year", new SelectList(ViewData["Year"] as IList<int>), new { @class = "form-control form-control-sm", @onchange = "clickDropDown()" })</td>
+                    <td><button type="submit" hidden id="SearchButton" value="" class="btn"> </button></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <!-- #endregion -->
+}
+<div class="container">
+
+    <table class="table table-striped table-custom">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Имя</th>
+                <th scope="col">Период</th>
+                <th scope="col">Количество политик</th>
+                <th scope="col">Общий размер</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entity in ViewData["Statistic"] as IList<StatiscticItem>)
+            {
+
+                <tr>
+                    @switch (@entity.Name)
+                    {
+                        case "All":
+                            <td>Всего</td>
+                            break;
+                        case "Moscow":
+                            <td>Москва</td>
+                            break;
+                        case "Dubna":
+                            <td>Дубна</td>
+                            break;
+                        case "Gorodec":
+                            <td>Городец</td>
+                            break;
+                    }
+
+                    @if (@entity.typeOfStatistic == TypeOfStatistic.Month)
+                    {
+                        <td>За @ViewData["SelectMonth"]</td>
+                    }
+                    else
+                    { 
+                        <td>За @ViewData["SelectYear"] год</td>  
+                    }
+
+                    <td><h4>@entity.Count</h4></td>
+                    <td>@entity.SizeHumanRead</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

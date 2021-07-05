@@ -1,0 +1,154 @@
+﻿@model BackUpCollectionDAL.ViewModel
+@using BackUpCollectionDAL.DataBase
+@using PagedList.Mvc;
+
+@using PagedList;
+@addTagHelper *, PagedList.Core.Mvc
+@{
+    ViewData["Title"] = "Backup Мониторинг";
+}
+
+
+
+<div class="container" style="height: 100%;">
+
+    @if (BackUpCollectionDAL.Extensions.ActiveDirectoryOptions.IsMember(User.Identity.Name))
+    {
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        {
+
+            <!-- #region Панель поиска -->
+            <div style="position: absolute; height: 180px;z-index:70; width:100%; top:70px; left:0; background-color:#0074a3; box-shadow: rgba(0,0,0,0.5) 0px 5px 30px;">
+
+                <div class="text-center margin">
+
+                    <div class="row">
+                        <div class="col text-center">
+                            <h4> <label for="TextBox" class="text-white d-inline">Мониторинг BACKUP</label></h4>
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            @*<input type="text" style="height: 31px;margin-top: 1px;" class="form-control" id="dtStart" name="dtStart" value="@Model.dtStart" placeholder="Дата начала">*@
+                            <div class="input-daterange input-group" id="datepicker">
+                                <input type="text" class="input-sm form-control" name="dtStart" value="@Model.dtStart" placeholder="Дата начала" />
+                                @*<span class="input-group-addon">до</span>*@
+                                <input type="text" class="input-sm form-control" name="dtEnd" value="@Model.dtEnd" />
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-group mb-2">
+                                <input type="text" id="searchText" name="searchText" value="@Model.SearchString" class="form-control" placeholder="Поиск" />
+
+                                <div class="input-group-append">
+                                    <button type="submit" id="SearchButton" value="" class="btn rounded-right btn-light searchicon">
+                                        <img src="~/images/Search.png" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row no-gutters">
+
+                        <div class="col-md-2">
+                            @Html.DropDownList("loc", new SelectList(Model.Place, "Key", "Value"), new { @class = "form-control ", @onchange = "clickDropDown()" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.DropDownList("zone", new SelectList(Model.Zone, "Key", "Value"), new { @class = "form-control ", @onchange = "clickDropDown()" })
+                        </div>
+                        <div class="col-md-4 offset-md-4">
+                            <button type="button" class="btn btn-light" style="width:100%" onclick="location.href='@Url.Action("Statistic", "Home", new { Month = DateTime.Now.Month, Year = DateTime.Now.Year })'">Статистика</button>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-3">
+                            <label class="checkboxLabel">@Html.CheckBox("IsGood", Model.IsGood, new { @class = "checkboxsize" }) Успешные</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="checkboxLabel">@Html.CheckBox("IsProblem", Model.IsProblem, new { @class = "checkboxsize" }) Проблемные</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="checkboxLabel">@Html.CheckBox("IsError", Model.IsError, new { @class = "checkboxsize" }) Ошибки</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="checkboxLabel">@Html.CheckBox("IsProgress", Model.IsProgress, new { @class = "checkboxsize" }) В процессе</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- #endregion -->
+
+            <div class="container" id="loading-body" style="position: absolute; top: 260px;">
+                <h2>Загрузка....</h2>
+                <div class="loader"></div>
+            </div>
+
+            <div class="container" id="data-body">
+                <!-- #PoliciesList -->
+            </div>
+        }
+    }
+    else
+    {
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <div class="row">
+            <div class="col">
+                <div class="mx-auto w-50 p-3 bg-secondary text-white text-center">
+                    <span>@User.Identity.Name</span><br />
+                    <span>Отказано в доступе</span>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/moment-with-locales.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery-3.2.1.min.js"></script>
+<script src="~/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+<script src="~/js/bootstrap-datepicker.ru.min.js"></script>
+
+
+<script type="text/javascript">
+        $(function () {
+            //alert("fdfd");
+            //$('#dtStart').datetimepicker({
+            //    locale: 'ru'
+            //});
+            //$("#data-body").hide();
+            $('#datepicker').datepicker({
+                language: "ru"
+            });
+
+
+
+            var loadingBody = $("loading-body");
+            var dataBody = $("#data-body");
+            var loc = $("#loc option:selected").val();
+            var zone = $("#zone option:selected").val();
+           var url = '@Url.Action("PoliciesList", "Home")?searchText=' + '@Model.SearchString' + '&dtStart=' + '@Model.dtStart' + '&dtEnd=' + '@Model.dtEnd' + '&loc=' + loc + '&zone=' + zone + '&IsGood=' + '@Model.IsGood' + '&IsProblem=' + '@Model.IsProblem' + '&IsError=' + '@Model.IsError' + '&IsProgress=' + '@Model.IsProgress' + '&page=' + '@Model.page';
+
+            $(dataBody).load(url, "",
+                function (responseText, textStatus, XMLHttpRequest) {
+                    document.getElementById("loading-body").style.display = "none";
+                }
+            );
+
+
+
+
+
+        });
+</script>

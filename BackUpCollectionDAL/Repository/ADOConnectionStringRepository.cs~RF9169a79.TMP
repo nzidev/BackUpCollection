@@ -1,0 +1,49 @@
+﻿using BackUpCollectionDAL.DataBase;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace BackUpCollectionDAL.Repository
+{
+    public class ADOConnectionStringRepository
+    {
+        CoreDbContext context;
+        public ADOConnectionStringRepository(CoreDbContext context)
+        {
+            this.context = context;
+        }
+        public ADOConnectionString GetByName(string Name)
+        {
+            var ADOConnectionString = context.ADOConnectionStrings.Where(s => s.Name == Name).FirstOrDefault<ADOConnectionString>();
+            if (ADOConnectionString != null)
+            {
+                return ADOConnectionString;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void Add(ADOConnectionString ADOConnectionString)
+        {
+            var ADOConnectionStringTMP = context.ADOConnectionStrings.Where(s => s.Name == ADOConnectionString.Name).FirstOrDefault<ADOConnectionString>();
+            if (ADOConnectionStringTMP == null)
+            {
+                context.Entry(ADOConnectionString).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+                context.SaveChanges();
+            }
+        }
+
+        public void UpdateMailSend(ServiceSetting serviceSetting)
+        {
+            var ADOConnectionStringTMP = context.ADOConnectionStrings.Where(s => s.ADOConnectionStringId == serviceSetting.ADOConnectionStringId).FirstOrDefault<ADOConnectionString>();
+            if (ADOConnectionStringTMP == null)
+            {
+                ADOConnectionStringTMP.isMailSend = serviceSetting.ADOConnectionString.isMailSend;
+                context.SaveChanges();
+            }
+        }
+    }
+}

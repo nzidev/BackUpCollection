@@ -1,0 +1,12 @@
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\bin\Debug\netcoreapp3.1\BackUpCollectionDAL.deps.json
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\bin\Debug\netcoreapp3.1\BackUpCollectionDAL.dll
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\obj\Debug\netcoreapp3.1\BackUpCollectionDAL.csprojAssemblyReference.cache
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\obj\Debug\netcoreapp3.1\BackUpCollectionDAL.AssemblyInfoInputs.cache
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\obj\Debug\netcoreapp3.1\BackUpCollectionDAL.AssemblyInfo.cs
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\bin\Debug\netcoreapp3.1\BackUpCollectionDAL.pdb
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\obj\Debug\netcoreapp3.1\BackUpCollectionDAL.dll
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\obj\Debug\netcoreapp3.1\BackUpCollectionDAL.pdb
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\bin\Debug\netcoreapp3.1\BackUpCollectionDAL.runtimeconfig.json
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\bin\Debug\netcoreapp3.1\BackUpCollectionDAL.runtimeconfig.dev.json
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\obj\Debug\netcoreapp3.1\BackUpCollectionDAL.genruntimeconfig.cache
+D:\VSProjects\GIT\BackUpCollection\BackUpCollection\BackUpCollectionDAL\obj\Debug\netcoreapp3.1\BackUpCollectionDAL.csproj.CoreCompileInputs.cache

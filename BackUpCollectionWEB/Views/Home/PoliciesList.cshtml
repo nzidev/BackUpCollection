@@ -1,0 +1,102 @@
+﻿@model BackUpCollectionDAL.ViewModel
+@using BackUpCollectionDAL.DataBase
+@using PagedList.Mvc;
+
+@using PagedList;
+@addTagHelper *, PagedList.Core.Mvc
+@{
+    ViewData["Title"] = "Backup Мониторинг";
+}
+
+    <div >
+        <table class="table table-striped table-custom">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Клиент</th>
+                    <th scope="col">Размер</th>
+                    <th scope="col">День</th>
+                    <th scope="col">Периодичность</th>
+                    <th scope="col">Время</th>
+                    <th scope="col">Начало</th>
+                    <th scope="col">Конец</th>
+                    <th scope="col">Медиа сервер</th>
+                    <th scope="col">Имя политики</th>
+                    <th scope="col">Сегмент</th>
+                    <th scope="col">Ошибки</th>
+
+                </tr>
+            </thead>
+
+            @if (Model.PagedMainEvents != null)
+            {
+                <tbody>
+                    @foreach (var entity in Model.PagedMainEvents)
+                    {
+                        var style = "";
+                        var endtime = entity.EndTime.ToString();
+
+                        if (entity.Size == 0)
+                        {
+                            style = "background-color: #ffc107;";
+                        }
+                        if (entity.EndTime == DateTime.Parse("1970-01-01 03:00:00.0000000"))
+                        {
+                            style = "background-color: #28a745;";
+                            endtime = "В процессе...";
+
+                        }
+                        if (entity.EndTime == DateTime.Parse("1986-10-09 03:00:00.0000000"))
+                        {
+                            style = "background-color: #7BABFF;";
+                            endtime = "Зависла";
+
+                        }
+                        if (entity.Status != 0)
+                        {
+                            style = "background-color: #ff867c;";
+                        }
+
+
+
+                        <tr style="@style" ondblclick="showPopup('@entity.Client.Name')">
+                            <td>@entity.Client.Name</td>
+                            <td>@entity.SizeHumanRead</td>
+                            <td>@entity.Delay.Name</td>
+                            <td>@entity.Frequency.Name</td>
+                            <td>@entity.Time</td>
+                            <td>@entity.StartTime</td>
+                            <td>@endtime</td>
+                            <td>@entity.MediaServer.Name</td>
+                            <td><a href="http://servicedesk:8080/issues/?jql=text%20~ @entity.Policy.Name ORDER%20BY%20created%20DESC" target='_blank'>@entity.Policy.Name</a></td>
+                            <td>@entity.MasterServer.Description</td>
+                            <td>@entity.Status</td>
+
+                        </tr>
+                    }
+                    <tr>
+                        <td>Страница @(Model.pageCount < Model.page ? 0 : Model.page) из @Model.pageCount</td>
+                    </tr>
+                    <tr>
+                        @{
+                            var prevPage = Model.page - 1;
+                            var nextPage = Model.page + 1;
+                        }
+
+                        <td>
+                            <input type="hidden" id="page" name="page" value="" class="form-control" />
+                            <input type="button" value="Назад" class="form-control" onclick="prev(@prevPage)"
+                                   @{ if (Model.page == 1) { @: disabled="disabled"
+                                   } } />
+                        </td>
+                        <td>
+                            <input type="button" value="Вперед" class="form-control" onclick="next(@nextPage)"
+                                   @{ if (Model.pageCount <= Model.page) { @: disabled="disabled"
+                                   } } />
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            }
+        </table>
+    </div>
